@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   TextField,
   Typography,
-  Grid,
   MenuItem,
   CircularProgress,
   Box,
@@ -48,7 +47,19 @@ const TagList = () => {
   }, [allTagsData, limit, sortBy]);
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLimit(parseInt(event.target.value));
+    const inputValue = event.target.value;
+    const intValue = parseInt(inputValue);
+
+    if (inputValue === "" || inputValue === null) {
+      setLimit(1);
+      return;
+    }
+
+    if (intValue < 0) {
+      return;
+    }
+
+    setLimit(intValue);
   };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,11 +87,11 @@ const TagList = () => {
         p: 4,
       }}
     >
+      {/* Refactor to list editor component */}
       <Box
         sx={{
           display: "flex",
           flexDirection: { xs: "column", sm: "row" },
-          alignItems: "center",
           justifyContent: "center",
           gap: "16px",
           my: "2",
@@ -93,7 +104,9 @@ const TagList = () => {
           value={limit}
           onChange={handleLimitChange}
           variant="outlined"
-          InputProps={{ inputProps: { min: 1 } }}
+          InputProps={{ inputProps: { min: 0 } }}
+          error={limit <= 0}
+          helperText={limit <= 0 ? "Please enter a positive integer" : ""}
           sx={{ mb: { xs: 2, sm: 0 }, width: { xs: "260px", sm: "190px" } }}
         />
 
@@ -117,73 +130,73 @@ const TagList = () => {
 
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          boxShadow: 1,
-          borderRadius: 4,
+          width: { xs: "260px", sm: "400px", md: "500px", lg: "800px" },
+          boxShadow: 3,
+          borderRadius: 2,
         }}
       >
+        {/* Refactor to error component */}
         {allTagsError && (
           <Box
             sx={{
               display: "flex",
               justifyContent: "center",
               py: 2,
-              borderRadius: 4,
-              minWidth: { xs: 260, sm: 400, md: 500, lg: 800 },
+              borderRadius: 2,
             }}
           >
             <Typography color="error">Error fetching data</Typography>
           </Box>
         )}
 
+        {/* Refactor to list component */}
         {!allTagsError && (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              minWidth: { xs: 260, sm: 400, md: 500, lg: 800 },
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    p: 2,
-                    borderBottom: "1px solid #F0F0F0",
-                    borderTopLeftRadius: 4,
-                    borderTopRightRadius: 4,
-                  }}
-                >
-                  <Typography>Tags</Typography>
-                  <Typography>Tags Count</Typography>
-                </Box>
-              </Grid>
-              {filteredTags.map((tag) => (
-                <Grid item xs={12} key={tag.name}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      p: 2,
-                    }}
-                  >
-                    <Typography>{tag.name}</Typography>
-                    <Typography>{tag.count}</Typography>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
+          <>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                py: 2,
+                px: { xs: 2, sm: 5, md: 8 },
+                backgroundColor: "#F6F6F6",
+                borderTopLeftRadius: 4,
+                borderTopRightRadius: 4,
+              }}
+            >
+              <Typography>Tags</Typography>
+              <Typography>Tags count</Typography>
+            </Box>
+
+            {/* Refactor to list item component */}
+            {filteredTags.map((tag) => (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  py: 2,
+                  px: { xs: 2, sm: 5, md: 8 },
+                  borderBottom: "1px solid #F0F0F0",
+                }}
+              >
+                <Typography>{tag.name}</Typography>
+                <Typography>{tag.count}</Typography>
+              </Box>
+            ))}
+
             {allTagsLoading && (
-              <CircularProgress sx={{ py: 2, color: "black" }} size={24} />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  py: 2,
+                }}
+              >
+                <CircularProgress sx={{ py: 2, color: "black" }} size={24} />
+              </Box>
             )}
-          </Box>
+          </>
         )}
       </Box>
     </Box>

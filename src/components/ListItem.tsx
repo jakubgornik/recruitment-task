@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { sxListItem } from "../utils/sxProps";
 
 interface Tag {
   name: string;
@@ -7,17 +8,7 @@ interface Tag {
 
 const ListItem = ({ tag }: { tag: Tag }) => {
   return (
-    <Box
-      key={tag.name}
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        py: 2,
-        px: { xs: 2, sm: 5, md: 8 },
-        borderBottom: "1px solid #F0F0F0",
-      }}
-    >
+    <Box key={tag.name} sx={sxListItem}>
       <Typography>{tag.name}</Typography>
       <Typography>{tag.count}</Typography>
     </Box>

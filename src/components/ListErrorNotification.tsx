@@ -1,15 +1,9 @@
 import { Box, Typography } from "@mui/material";
+import { sxListErrorNotification } from "../utils/sxProps";
 
 const ListErrorNotification = () => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        py: 2,
-        borderRadius: 2,
-      }}
-    >
+    <Box sx={sxListErrorNotification}>
       <Typography color="error">Error fetching data</Typography>
     </Box>
   );

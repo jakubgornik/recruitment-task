@@ -1,4 +1,9 @@
 import { Box, TextField, MenuItem } from "@mui/material";
+import {
+  sxListEditorWrapper,
+  sxLimitTextField,
+  sxSortByTextField,
+} from "../utils/sxProps";
 
 const ListEditor = ({
   options,
@@ -32,15 +37,7 @@ const ListEditor = ({
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: { xs: "column", sm: "row" },
-        justifyContent: "center",
-        gap: "16px",
-        my: "2",
-      }}
-    >
+    <Box sx={sxListEditorWrapper}>
       <TextField
         id="tag-limit"
         label="Number of tags"
@@ -51,7 +48,7 @@ const ListEditor = ({
         InputProps={{ inputProps: { min: 0 } }}
         error={limit <= 0}
         helperText={limit <= 0 ? "Please enter a positive integer" : ""}
-        sx={{ mb: { xs: 2, sm: 0 }, width: { xs: "260px", sm: "190px" } }}
+        sx={sxLimitTextField}
       />
 
       <TextField
@@ -62,7 +59,7 @@ const ListEditor = ({
         select
         onChange={handleSortChange}
         variant="outlined"
-        sx={{ width: { xs: "260px", sm: "190px" } }}
+        sx={sxSortByTextField}
       >
         {selectOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>

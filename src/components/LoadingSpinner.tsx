@@ -1,15 +1,10 @@
 import { Box, CircularProgress } from "@mui/material";
+import { sxLoadingSpinner, sxLoadingSpinnerWrapper } from "../utils/sxProps";
 
 const LoadingSpinner = () => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        py: 2,
-      }}
-    >
-      <CircularProgress sx={{ py: 2, color: "black" }} size={24} />
+    <Box sx={sxLoadingSpinnerWrapper}>
+      <CircularProgress sx={sxLoadingSpinner} size={24} />
     </Box>
   );
 };

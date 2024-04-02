@@ -3,9 +3,7 @@ import ListEditor from "./components/ListEditor";
 import ListCard from "./components/ListCard";
 import ListErrorNotification from "./components/ListErrorNotification";
 import Container from "./components/Container";
-import ListHeader from "./components/ListHeader";
-import ListItem from "./components/ListItem";
-import LoadingSpinner from "./components/LoadingSpinner";
+import ListBody from "./components/ListBody";
 import { useQuery } from "react-query";
 
 interface Tag {
@@ -54,7 +52,7 @@ const TagList = () => {
       sortedTags = sortedTags.sort((a, b) => b.count - a.count);
     }
     setFilteredTags(sortedTags.slice(0, options.limit));
-  }, [allTagsData, options, options]);
+  }, [allTagsData, options]);
 
   return (
     <Container>
@@ -64,18 +62,10 @@ const TagList = () => {
         setOptions={setOptions}
       />
       <ListCard>
-        {allTagsError && <ListErrorNotification />}
-
-        {!allTagsError && (
-          <>
-            <ListHeader />
-
-            {filteredTags.map((tag) => (
-              <ListItem key={tag.name} tag={tag} />
-            ))}
-
-            {allTagsLoading && <LoadingSpinner />}
-          </>
+        {allTagsError ? (
+          <ListErrorNotification />
+        ) : (
+          <ListBody filteredTags={filteredTags} isLoading={allTagsLoading} />
         )}
       </ListCard>
     </Container>
